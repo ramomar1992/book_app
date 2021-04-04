@@ -1,0 +1,239 @@
+  
+/* ==============================home page for mobile================================== */
+
+@media only screen and (max-width: 768px) {
+ 
+    header{
+        background-color: #e2d5d5;
+        height: 150px;
+    text-align: center;
+    color:#B67162 ;
+    font-size: 70px;
+    font-family: 'Sansita Swashed', cursive;
+    }
+
+
+    body{
+        margin-top: 25px;
+        /* background-color: #fde8cd; */
+        background-image: linear-gradient(to right,  #d8ac9c, #5f939a);  
+    }
+    label{
+        font-size: 30px;
+        color: #1b2021;
+        text-align: center;
+        font-family: 'Playfair Display', serif;
+    
+    }
+    input[type="text" i] {
+        border: none;
+        border-bottom: 2px solid #d8ac9c;
+      height: 30px;
+      background-color:#fde8cd ;
+    }
+    form{
+    display:grid;
+    border-style: ridge;
+   } 
+   #fl{
+    grid-area: 1 ;
+   }
+   #sl{
+    grid-area: 3 ;
+   }
+   #thl{
+    grid-area: 5 ;
+   }
+   input[type="submit" i]{
+    grid-area: 7 ;
+    padding: 14px 20px;
+    width: 100px;
+    margin: auto;
+    background-color:#1b2021 ;
+    color: #fde8cd;
+    border-radius: 12px;
+    font-size: 20px;
+   }
+   input[type="radio" ]{
+    width: 10%;
+    height: 2em;
+}
+
+/* ========================secand page================================== */
+#img{
+    width: 200px;
+    height: 300px;
+   
+}
+h2{
+    font-size: 20px;
+    font-family: 'Playfair Display', serif;
+    color: #1b2021;
+}
+#book{
+    display: flex;
+    padding: 30px;
+    
+    
+}
+#book div{
+    /* display: flex; */
+    /* padding: 30px; */
+    background-color: #f1f1f1;
+  width: 300px;
+  height: 300px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 50px;  
+}
+div{
+    
+    padding: 30px;
+    border-style: solid;
+    margin: 20px;
+    margin-bottom: 20px;
+    background-color: #e4d3cf;
+    width: 300px;
+    height: 400px;
+    font-family: 'Work Sans', sans-serif;
+    border-radius: 50px;
+}
+h4{
+    font-size: 15px;
+    font-family: 'Playfair Display', serif;
+    float: left;
+    color: #1b2021;
+}}
+/* =============================for comp========================================= */
+
+@media only screen and (min-width: 767px) {
+    header{
+        background-color: #e2d5d5;
+        height: 150px;
+    text-align: center;
+    color:#B67162 ;
+    font-size: 70px;
+    font-family: 'Sansita Swashed', cursive;
+    }
+
+
+
+
+    body{
+      background-color: #865858;
+      margin-top: 25px;
+}
+label{
+    font-size: 30px;
+    color: #fde8cd;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+
+}
+input[type="text" i] {
+    border: none;
+    border-bottom: 2px solid #d8ac9c;
+  height: 30px;
+  background-color:#fde8cd ;
+}
+form{
+display:grid;
+border-style: ridge;
+} 
+#fl{
+grid-area: 2 ;
+}
+#sl{
+grid-area: 4 ;
+}
+#thl{
+grid-area: 6 ;
+}
+input[type="submit" ]{
+grid-area: 8 ;
+padding: 14px;
+width: 100px;
+margin: auto;
+background-color:#fde8cd ;
+color: #865858;
+border-radius: 12px;
+font-size: 20px;
+}
+input[type="radio" ]{
+width: 10%;
+height: 2em;
+}
+fieldset{
+   
+    width: 500px;
+    height: 500px;
+  border: solid #e2d5d5;
+  border-radius: 12px;
+  background-color:#8e7f7f;
+ margin: auto;
+}
+/* ================================================= */
+
+#img{
+    width: 200px;
+    height: 300px;
+}
+h2{
+    /* font-size: 15px;
+    font-family: 'Playfair Display', serif;
+    color: black;
+    width: 90px; */
+    text-align: center;
+    font-size: 20px;
+    background-color:#B67162;
+    color: #e4d3cf;
+    font-family: 'Sansita Swashed', cursive;
+    height: 100px;
+}
+#book div{
+    /* display: flex; */
+    /* padding: 30px; */
+    background-color: #f1f1f1;
+  width: 300px;
+  height: 300px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 50px;  
+}
+div{
+   
+    padding: 30px;
+    border-style: solid;
+    margin: 20px;
+    margin-bottom: 20px;
+    background-color: #e4d3cf;
+    width: 300px;
+    height: 400px;
+    font-family: 'Work Sans', sans-serif;
+    border-radius: 50px;
+}
+div:hover {
+    opacity: 0.8;
+    background-color: #854d41;
+    transform: scale(1.1);
+ }
+h4{
+   
+    font-family: 'Playfair Display', serif;
+   
+    font-size: 15px;
+    width: 300px;
+    text-align: center;
+    color: #e4d3cf;
+   
+    height: 100px;
+    
+}
+#sb{
+    display: flex;
+    flex-flow: row-reverse wrap;
+}
+
+}
