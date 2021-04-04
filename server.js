@@ -1,5 +1,5 @@
 'use strict';
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3031;
 
 const express = require('express');
 const superagent = require('superagent');
@@ -36,6 +36,18 @@ function Book(data) {
   this.author = data.volumeInfo.authors.join(', ');
   this.description = data.volumeInfo.description;
   this.image = (data.volumeInfo.imageLinks) ? data.volumeInfo.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+  //solution 1:
+  // if (data.volumeInfo.imageLinks)
+  // {const regEx='http';
+  //   this.image= data.volumeInfo.imageLinks.replace( regEx, 'https');
+  // }else{
+  //   this.image= 'https://i.imgur.com/J5LVHEL.jpg';
+  //   console.log(this.image);
+
+  // }
+// solution 2:
+//   let Regex = /^(http:\/\/)/g;
+//   this.image_url = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.smallThumbnail.replace(Regex, 'https://') : 'https://i.imgur.com/J5LVHEL.jpg';
 }
 
 function getData(req, res) {
@@ -48,11 +60,9 @@ function getData(req, res) {
     url += `+inauthor:${req.body['name']}`;
   }
   superagent.get(url).then(data => {
-      return data.body.items.map(element => new Book(element));
-    })
-    .then(results => res.render('pages/searches/show', {
-      searchResults: results
-    }));
+    return data.body.items.map(element => new Book(element));
+  })
+    .then(results => res.render('pages/searches/show', { searchResults: results }));
 
 }
 
