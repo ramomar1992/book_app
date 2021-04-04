@@ -5,26 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/layout.css">
+  
+    
     <title>Search Book</title>
 </head>
 
 <body>
+    <fieldset>
     <form action="/searches" method="post">
-        <label for="search-name">
+        <label id="fl" for="search-name">
             Search Text:
             <input type="text" name="name" id="search-name">
         </label>
-        <label for="search-by">
+        <br><br><br>
+        <label id="sl" for="search-by">
             Search By: author
+            
             <input type="radio" name="search-by" value="author" id="search-by-author">
         </label>
-        Search By: title
-        <label for="search-by-title">
+        <br><br><br>
+        <label id="thl" for="search-by-title">
+            Search By: title
             <input type="radio" name="search-by" value="title" id="">
         </label>
+        <br><br><br>
         <input type="submit" value="Search">
     </form>
+</fieldset>
 </body>
 
 </html>
