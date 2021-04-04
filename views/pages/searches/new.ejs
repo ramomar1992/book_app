@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Book</title>
+</head>
+
+<body>
+    <form action="/searches" method="post">
+        <label for="search-name">
+            Search Text:
+            <input type="text" name="name" id="search-name">
+        </label>
+        <label for="search-by">
+            Search By: author
+            <input type="radio" name="search-by" value="author" id="search-by-author">
+        </label>
+        Search By: title
+        <label for="search-by-title">
+            <input type="radio" name="search-by" value="title" id="">
+        </label>
+        <input type="submit" value="Seach">
+    </form>
+</body>
+
+</html>
