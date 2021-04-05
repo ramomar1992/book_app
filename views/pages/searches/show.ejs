@@ -16,13 +16,22 @@
     <p>Feed Your Mind</p>
 </header>
 
+<form method="POST" action="/books/save">
+
     <% searchResults.forEach( book => { %>
         <div id="book">
             <img id="img" src=<%= book.image %> alt="">
             <h2><%=book.title %></h2>
             <h4><%=book.author %></h4>
             <p><%=book.description %></p>
+
+
+    <button id="select" type="submit" >Add book to my collection</button>
+</form>
+
+
         </div>
     <% }) %>
+
 </body>
 </html>
