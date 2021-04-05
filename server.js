@@ -22,6 +22,8 @@ app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"));
 
 
+
+
 app.get('/', (req, res) => {
   const SQL = 'SELECT * FROM books';
   console.log('inside get home');
@@ -90,9 +92,28 @@ app.get('*', (req, res) => {
 });
 
 
+
 client.connect().then(()=> {
   app.listen(PORT, () => {
     console.log('Listening on ', PORT);
   });
+
+
+app.get('/books/:id',(req,res)=>{
+  let unique = req.params.id;
+  let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
+          client.query(SQL)
+          .then(data =>{
+              
+
+              res.render('pages/books/details',{details:data.rows[0]});
+          })
+})
+
+app.get('/books',(req,res))
+const SQL2 = 'SELECT * from books';
+client.query(SQL2).then(result=> {
+    response.render('pages/books/show', {result: result.rows});
+
 });
 
