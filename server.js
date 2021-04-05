@@ -1,11 +1,15 @@
 'use strict';
 
 require("dotenv").config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 const express = require('express');
 const superagent = require('superagent');
 const path = require('path');
+const pg = require('pg');
+
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', err => console.log('PG Error', err));
 
 const app = express();
 app.use(errorHandler);
@@ -15,11 +19,16 @@ app.use(express.urlencoded({
 }));
 
 app.set('view engine', 'ejs');
-app.set("views", path.join(__dirname, "views"))
+app.set("views", path.join(__dirname, "views"));
 
 
 app.get('/', (req, res) => {
-  res.render('pages/index');
+  const SQL = 'SELECT * FROM books';
+  console.log('inside get home');
+  client.query(SQL).then(result => {
+    console.log('inside SQL');
+    res.render('index', {book: result.rows});
+  });
 });
 
 app.get('/searches/new', (req, res) => {
@@ -79,6 +88,11 @@ app.get('*', (req, res) => {
   res.status(404).send('Page not found');
   console.log('page not found');
 });
-app.listen(PORT, () => {
-  console.log('Listening on ', PORT);
+
+
+client.connect().then(()=> {
+  app.listen(PORT, () => {
+    console.log('Listening on ', PORT);
+  });
 });
+
