@@ -23,13 +23,10 @@ app.set("views", path.join(__dirname, "views"));
 app.post('/books/save', saveData)
 
 
-console.log('Iam here');
 
 app.get('/', (req, res) => {
   const SQL = 'SELECT * FROM books';
-  console.log('inside get home');
   client.query(SQL).then(result => {
-    console.log('inside SQL');
     res.render('pages/index', {
       book: result.rows
     });
@@ -83,11 +80,14 @@ function getData(req, res) {
     url += `+inauthor:${req.body['name']}`;
   }
   superagent.get(url).then(data => {
-    return data.body.items.filter(element => {
-      console.log(element.volumeInfo)
-      return element.volumeInfo.authors;
-    }).map(elem => new Book(elem));
-  })
+      return data.body.items.filter(element => {
+        return element.volumeInfo.authors && element.volumeInfo.description;
+      }).map(elem => {
+        let dataEl = new Book(elem);
+        console.log(dataEl);
+        return dataEl;
+      });
+    })
     .then(results => res.render('pages/searches/show', {
       searchResults: results
     }));
@@ -105,7 +105,9 @@ function saveData(req, res) {
 
   const values = [image, title, author, description, isbn, bookshelf];
   const SQL = `INSERT INTO books (image, title, author, description, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *`;
-  client.query(SQL, values).then(() => { res.redirect('/'); });
+  client.query(SQL, values).then(() => {
+    res.redirect('/');
+  });
 }
 
 
@@ -123,10 +125,7 @@ app.get('/books/:id', (req, res) => {
     });
 });
 
-
-
 app.get('/books', (req, res) => {
-  console.log('inside books');
   const SQL2 = 'SELECT * from books';
   client.query(SQL2)
     .then(result => {
@@ -138,6 +137,7 @@ app.get('/books', (req, res) => {
 
 
 
+}
 
 client.connect().then(
   app.listen(PORT, () => {
