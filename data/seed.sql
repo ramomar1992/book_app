@@ -1,0 +1,1 @@
+INSERT INTO books (title, author, bookDescription, bookImage) VALUES ('book1', 'ahmad', 'abcdefg', 'https://test.com');
