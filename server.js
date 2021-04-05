@@ -16,6 +16,11 @@ app.use(express.urlencoded({
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"))
 
+
+app.get('/', (req, res) => {
+  res.render('pages/index');
+});
+
 app.get('/searches/new', (req, res) => {
   res.render('pages/searches/new');
 });
@@ -46,9 +51,9 @@ function Book(data) {
   //   console.log(this.image);
 
   // }
-// solution 2:
-//   let Regex = /^(http:\/\/)/g;
-//   this.image_url = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.smallThumbnail.replace(Regex, 'https://') : 'https://i.imgur.com/J5LVHEL.jpg';
+  // solution 2:
+  //   let Regex = /^(http:\/\/)/g;
+  //   this.image_url = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.smallThumbnail.replace(Regex, 'https://') : 'https://i.imgur.com/J5LVHEL.jpg';
 }
 
 function getData(req, res) {
@@ -61,9 +66,11 @@ function getData(req, res) {
     url += `+inauthor:${req.body['name']}`;
   }
   superagent.get(url).then(data => {
-    return data.body.items.map(element => new Book(element));
-  })
-    .then(results => res.render('pages/searches/show', { searchResults: results }));
+      return data.body.items.map(element => new Book(element));
+    })
+    .then(results => res.render('pages/searches/show', {
+      searchResults: results
+    }));
 
 }
 
