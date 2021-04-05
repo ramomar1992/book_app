@@ -20,7 +20,7 @@ app.use(express.urlencoded({
 
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"));
-app.post('/books/save', saveData)
+
 
 
 
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
   const SQL = 'SELECT * FROM books';
   client.query(SQL).then(result => {
     res.render('pages/index', {
-      book: result.rows
+      books: result.rows
     });
   });
 });
@@ -53,21 +53,9 @@ function Book(data) {
   this.title = data.volumeInfo.title;
   this.author = data.volumeInfo.authors.join(', ');
   this.description = data.volumeInfo.description;
-  this.image = (data.volumeInfo.imageLinks) ? data.volumeInfo.imageLinks.thumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
   this.isbn = data.volumeInfo.industryIdentifiers[0].identifier;
   this.bookshelf = data.volumeInfo.categories[0];
-  //solution 1:
-  // if (data.volumeInfo.imageLinks)
-  // {const regEx='http';
-  //   this.image= data.volumeInfo.imageLinks.replace( regEx, 'https');
-  // }else{
-  //   this.image= 'https://i.imgur.com/J5LVHEL.jpg';
-  //   console.log(this.image);
-
-  // }
-  // solution 2:
-  //   let Regex = /^(http:\/\/)/g;
-  //   this.image_url = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.smallThumbnail.replace(Regex, 'https://') : 'https://i.imgur.com/J5LVHEL.jpg';
+  this.image = (data.volumeInfo.imageLinks) ? /^https/i.test(data.volumeInfo.imageLinks.thumbnail) ? data.volumeInfo.imageLinks.thumbnail : data.volumeInfo.imageLinks.thumbnail.replace(/^http/i, 'https') : 'https://i.imgur.com/J5LVHEL.jpg';
 }
 
 function getData(req, res) {
@@ -81,10 +69,9 @@ function getData(req, res) {
   }
   superagent.get(url).then(data => {
       return data.body.items.filter(element => {
-        return element.volumeInfo.authors && element.volumeInfo.description;
+        return element.volumeInfo.authors && element.volumeInfo.description && element.volumeInfo.categories;
       }).map(elem => {
         let dataEl = new Book(elem);
-        console.log(dataEl);
         return dataEl;
       });
     })
@@ -93,9 +80,9 @@ function getData(req, res) {
     }));
 
 }
+app.post('/add-book', saveData);
 
 function saveData(req, res) {
-
   const image = req.body.bookimg;
   const title = req.body.booktitle;
   const author = req.body.bookauther;
@@ -104,9 +91,9 @@ function saveData(req, res) {
   const bookshelf = req.body.bookshelf;
 
   const values = [image, title, author, description, isbn, bookshelf];
-  const SQL = `INSERT INTO books (image, title, author, description, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *`;
-  client.query(SQL, values).then(() => {
-    res.redirect('/');
+  const SQL = `INSERT INTO books (bookImage, title, author, bookDescription, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *`;
+  client.query(SQL, values).then((data) => {
+    res.redirect(`/books/${data.rows[0].id}`);
   });
 }
 
@@ -119,7 +106,8 @@ app.get('/books/:id', (req, res) => {
   let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
   client.query(SQL)
     .then(data => {
-      res.render('pages/books/detail', {
+      console.log(data.rows);
+      res.render('pages/books/show', {
         details: data.rows[0]
       });
     });
@@ -134,10 +122,6 @@ app.get('/books', (req, res) => {
       });
     });
 });
-
-
-
-}
 
 client.connect().then(
   app.listen(PORT, () => {

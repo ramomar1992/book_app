@@ -1,41 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="/layout.css">
+<%- include('../../layout/head')  %>
 
-
-    <title>Search Book</title>
-</head>
 
 <body>
-    <fieldset>
-        <form action="/searches" method="post">
-            <label id="fl" for="search-name">
-                Search Text:
-                <input type="text" name="name" id="search-name" required>
-            </label>
-            <br><br><br>
-            <label id="sl" for="search-by">
-                Search By: author
+    <%- include('../../layout/header')  %>
+    <main>
 
-                <input type="radio" name="search-by" value="author" id="search-by-author" required>
-            </label>
-            <br><br><br>
-            <label id="thl" for="search-by-title">
-                Search By: title
-                <input type="radio" name="search-by" value="title" id="" required>
-            </label>
-            <br><br><br>
-            <input type="submit" value="Search">
-        </form>
-    </fieldset>
+        <fieldset>
+            <form action="/searches" method="post">
+                <label id="fl" for="search-name">
+                    Search Text:
+                    <input type="text" name="name" id="search-name" required>
+                </label>
+                <label id="sl" for="search-by">
+                    Search By: author
+
+                    <input type="radio" name="search-by" value="author" id="search-by-author" required>
+                </label>
+                <label id="thl" for="search-by-title">
+                    Search By: title
+                    <input type="radio" name="search-by" value="title" id="" required>
+                </label>
+                <input type="submit" value="Search">
+            </form>
+        </fieldset>
+    </main>
+    <%- include('../../layout/footer')  %>
+
 </body>
 
 </html>
