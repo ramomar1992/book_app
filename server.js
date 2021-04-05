@@ -56,6 +56,8 @@ function Book(data) {
   this.author = data.volumeInfo.authors.join(', ');
   this.description = data.volumeInfo.description;
   this.image = (data.volumeInfo.imageLinks) ? data.volumeInfo.imageLinks.thumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+  this.isbn = data.volumeInfo.industryIdentifiers[0].identifier;
+  this.bookshelf = data.volumeInfo.categories[0];
   //solution 1:
   // if (data.volumeInfo.imageLinks)
   // {const regEx='http';
@@ -80,7 +82,10 @@ function getData(req, res) {
     url += `+inauthor:${req.body['name']}`;
   }
   superagent.get(url).then(data => {
-      return data.body.items.filter(element => element.volumeInfo.authors).map(elem => new Book(elem));
+      return data.body.items.filter(element => {
+        console.log(element.volumeInfo)
+        return element.volumeInfo.authors;
+      }).map(elem => new Book(elem));
     })
     .then(results => res.render('pages/searches/show', {
       searchResults: results

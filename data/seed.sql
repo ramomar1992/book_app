@@ -1,1 +1,1 @@
-INSERT INTO books (title, author, bookDescription, bookImage) VALUES ('book1', 'ahmad', 'abcdefg', 'https://test.com');
+INSERT INTO books (title, author, bookDescription, bookImage,isbn,bookshelf) VALUES ('book1', 'ahmad', 'abcdefg', 'https://test.com','123456','fantasy');
