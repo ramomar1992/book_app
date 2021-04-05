@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
-   
-    <title>book render</title>
-</head>
+
+<%- include('../../layout/head')  %>
+
 
 <body id="sb">
-    <header style="width: 100%;">
-    <p>Feed Your Mind</p>
-</header>
+    <%- include('../../layout/header')  %>
 
-<form method="POST" action="/books/save">
+    <main>
 
-    <% searchResults.forEach( book => { %>
-        <div id="book">
-            <img id="img" src=<%= book.image %> alt="">
-            <h2><%=book.title %></h2>
-            <h4><%=book.author %></h4>
-            <p><%=book.description %></p>
-            <h4><%=book.isbn %></h4>
-            <h4><%=book.bookshelf %></h4>
+        <% searchResults.forEach( book => { %>
+        <form method="post" action="/add-book">
+            <div id="book">
+                <img id="img" src=<%= book.image %> alt="">
+                <h2><%=book.title %></h2>
+                <h4><%=book.author %></h4>
+                <p><%=book.description %></p>
+                <h4><%=book.isbn %></h4>
+                <h4><%=book.bookshelf %></h4>
 
-    <input type="text" value="<%= book.image %>" name="bookimg" >
-    <input type="text" value="<%=book.title %>" name="booktitle" >
-    <input type="text" value="<%=book.author %>" name="bookauther" >
-    <input type="text" value="<%=book.description %>" name="bookdescription" >
-    <input type="text" value="<%=book.isbn %>" name="bookisbn" >
-    <input type="text" value="<%=book.bookshelf %>" name="bookshelf" >
+                <input class="addClass" type="text" value="<%= book.image %>" name="bookimg">
+                <input class="addClass" type="text" value="<%=book.title %>" name="booktitle">
+                <input class="addClass" type="text" value="<%=book.author %>" name="bookauther">
+                <input class="addClass" type="text" value="<%=book.description %>" name="bookdescription">
+                <input class="addClass" type="text" value="<%=book.isbn %>" name="bookisbn">
+                <input class="addClass" type="text" value="<%=book.bookshelf %>" name="bookshelf">
 
-    <button id="select" type="submit" >Add book to my collection</button>
-</form>
+                <button id="select" type="submit">Add book to my collection</button>
+            </div>
+        </form>
 
 
-        </div>
-    <% }) %>
+        <% }) %>
+
+    </main>
+    <%- include('../../layout/footer')  %>
 
 </body>
+
 </html>
