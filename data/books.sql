@@ -4,5 +4,7 @@ CREATE TABLE IF NOT EXISTS books (
     title VARCHAR(255),
     author VARCHAR(255),
     bookDescription text,
-    bookImage VARCHAR(255)
+    bookImage VARCHAR(255),
+    ISBN VARCHAR(255),
+    bookshelf VARCHAR(255)
 )
