@@ -50,6 +50,9 @@ function errorHandler(err, req, res, next) {
 }
 
 app.post('/searches', getData);
+app.post('/books/save', saveData);
+
+
 
 function Book(data) {
   this.title = data.volumeInfo.title;
@@ -121,6 +124,13 @@ app.get('/books', (req, res) => {
       });
     });
 });
+
+
+function saveData(req,res){
+
+
+  
+}
 
 
 
