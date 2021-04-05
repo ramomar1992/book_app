@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a href="/" class="active">Best Books!</a>
+
+            <div id="links">
+                <a href="/">HOME</a>
+                <a href="/searches/new">SEARCH</a>
+
+            </div>
+        </div>
+        <section id="page">Book Details
+            <img src=<%= details.image %> />
+            <h2><%=details.title %></h2>
+            <h4><%=details.author %></h4>
+            <p><%=details.bookdescription %></p>
+            <h4>ISBN: <%= details.isbn %> </h4>
+            <h4>Bookshelf: <%=details.bookshelf %></h4>
+        </section>
+    </header>
+
+</body>
+
+</html>

@@ -6,6 +6,10 @@ const PORT = process.env.PORT;
 const express = require('express');
 const superagent = require('superagent');
 const path = require('path');
+const pg = require('pg');
+
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', err => console.log('PG Error', err));
 
 const app = express();
 app.use(errorHandler);
@@ -15,11 +19,20 @@ app.use(express.urlencoded({
 }));
 
 app.set('view engine', 'ejs');
-app.set("views", path.join(__dirname, "views"))
+app.set("views", path.join(__dirname, "views"));
 
+
+console.log('Iam here');
 
 app.get('/', (req, res) => {
-  res.render('pages/index');
+  const SQL = 'SELECT * FROM books';
+  console.log('inside get home');
+  client.query(SQL).then(result => {
+    console.log('inside SQL');
+    res.render('pages/index', {
+      book: result.rows
+    });
+  });
 });
 
 app.get('/searches/new', (req, res) => {
@@ -46,6 +59,8 @@ function Book(data) {
   this.author = data.volumeInfo.authors.join(', ');
   this.description = data.volumeInfo.description;
   this.image = (data.volumeInfo.imageLinks) ? data.volumeInfo.imageLinks.thumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+  this.isbn = data.volumeInfo.industryIdentifiers[0].identifier;
+  this.bookshelf = data.volumeInfo.categories[0];
   //solution 1:
   // if (data.volumeInfo.imageLinks)
   // {const regEx='http';
@@ -70,7 +85,10 @@ function getData(req, res) {
     url += `+inauthor:${req.body['name']}`;
   }
   superagent.get(url).then(data => {
-      return data.body.items.filter(element => element.volumeInfo.authors).map(elem => new Book(elem));
+      return data.body.items.filter(element => {
+        console.log(element.volumeInfo)
+        return element.volumeInfo.authors;
+      }).map(elem => new Book(elem));
     })
     .then(results => res.render('pages/searches/show', {
       searchResults: results
@@ -78,10 +96,44 @@ function getData(req, res) {
 
 }
 
+
+
+
+
+
+app.get('/books/:id', (req, res) => {
+  let unique = req.params.id;
+  let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
+  client.query(SQL)
+    .then(data => {
+      res.render('pages/books/detail', {
+        details: data.rows[0]
+      });
+    });
+});
+
+
+
+app.get('/books', (req, res) => {
+  console.log('inside books');
+  const SQL2 = 'SELECT * from books';
+  client.query(SQL2)
+    .then(result => {
+      res.render('pages/books/show', {
+        searchResults: result.rows
+      });
+    });
+});
+
+
+
+
+client.connect().then(
+  app.listen(PORT, () => {
+    console.log('Listeneing on', PORT);
+  })
+);
 app.get('*', (req, res) => {
   res.status(404).send('Page not found');
   console.log('page not found');
-});
-app.listen(PORT, () => {
-  console.log('Listening on ', PORT);
 });
