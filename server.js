@@ -66,7 +66,7 @@ function getData(req, res) {
     url += `+inauthor:${req.body['name']}`;
   }
   superagent.get(url).then(data => {
-      return data.body.items.map(element => new Book(element));
+      return data.body.items.filter(element => element.volumeInfo.authors).map(elem => new Book(elem));
     })
     .then(results => res.render('pages/searches/show', {
       searchResults: results
