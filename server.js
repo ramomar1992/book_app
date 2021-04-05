@@ -50,7 +50,7 @@ function errorHandler(err, req, res, next) {
 }
 
 app.post('/searches', getData);
-
+app.post('/books/save', saveData);
 
 
 
@@ -124,6 +124,13 @@ app.get('/books', (req, res) => {
       });
     });
 });
+
+
+function saveData(req,res){
+
+
+  
+}
 
 
 
