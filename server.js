@@ -1,7 +1,7 @@
 'use strict';
 
 require("dotenv").config();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 const express = require('express');
 const superagent = require('superagent');
@@ -22,14 +22,16 @@ app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"));
 
 
-
+console.log('Iam here');
 
 app.get('/', (req, res) => {
   const SQL = 'SELECT * FROM books';
   console.log('inside get home');
   client.query(SQL).then(result => {
     console.log('inside SQL');
-    res.render('index', {book: result.rows});
+    res.render('pages/index', {
+      book: result.rows
+    });
   });
 });
 
@@ -86,34 +88,44 @@ function getData(req, res) {
 
 }
 
+
+
+
+
+
+app.get('/books/:id', (req, res) => {
+  let unique = req.params.id;
+  let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
+  client.query(SQL)
+    .then(data => {
+      res.render('pages/books/detail', {
+        details: data.rows[0]
+      });
+    });
+});
+
+
+
+app.get('/books', (req, res) => {
+  console.log('inside books');
+  const SQL2 = 'SELECT * from books';
+  client.query(SQL2)
+    .then(result => {
+      res.render('pages/books/show', {
+        searchResults: result.rows
+      });
+    });
+});
+
+
+
+
+client.connect().then(
+  app.listen(PORT, () => {
+    console.log('Listeneing on', PORT);
+  })
+);
 app.get('*', (req, res) => {
   res.status(404).send('Page not found');
   console.log('page not found');
 });
-
-
-
-client.connect().then(()=> {
-  app.listen(PORT, () => {
-    console.log('Listening on ', PORT);
-  });
-
-
-app.get('/books/:id',(req,res)=>{
-  let unique = req.params.id;
-  let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
-          client.query(SQL)
-          .then(data =>{
-              
-
-              res.render('pages/books/details',{details:data.rows[0]});
-          })
-})
-
-app.get('/books',(req,res))
-const SQL2 = 'SELECT * from books';
-client.query(SQL2).then(result=> {
-    response.render('pages/books/show', {result: result.rows});
-
-});
-
