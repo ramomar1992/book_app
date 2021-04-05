@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS books;
 
-CREATE TABLE books (
+CREATE TABLE IF NOT EXISTS books (
     id SERIAL,
     title VARCHAR(255),
     author VARCHAR(255),
