@@ -20,6 +20,7 @@ app.use(express.urlencoded({
 
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"));
+app.post('/books/save', saveData)
 
 
 
@@ -47,9 +48,6 @@ function errorHandler(err, req, res, next) {
 }
 
 app.post('/searches', getData);
-app.post('/books/save', saveData);
-
-
 
 function Book(data) {
   this.title = data.volumeInfo.title;
@@ -96,6 +94,26 @@ function getData(req, res) {
 
 }
 
+function saveData(req, res) {
+
+  const image = req.body.bookimg;
+  const title = req.body.booktitle;
+  const author = req.body.bookauther;
+  const description = req.body.bookdescription;
+  const isbn = req.body.bookisbn;
+  const bookshelf = req.body.bookshelf;
+
+  const values = [image, title, author, description, isbn, bookshelf];
+  const SQL = `INSERT INTO books (image, title, author, description, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *`;
+  client.query(SQL, values).then(() => {
+    res.redirect('/');
+  });
+}
+
+
+
+
+
 app.get('/books/:id', (req, res) => {
   let unique = req.params.id;
   let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
@@ -116,9 +134,6 @@ app.get('/books', (req, res) => {
       });
     });
 });
-
-
-function saveData(req, res) {
 
 
 
