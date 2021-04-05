@@ -41,7 +41,7 @@ function Book(data) {
   this.title = data.volumeInfo.title;
   this.author = data.volumeInfo.authors.join(', ');
   this.description = data.volumeInfo.description;
-  this.image = (data.volumeInfo.imageLinks) ? data.volumeInfo.imageLinks.smallThumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
+  this.image = (data.volumeInfo.imageLinks) ? data.volumeInfo.imageLinks.thumbnail : 'https://i.imgur.com/J5LVHEL.jpg';
   //solution 1:
   // if (data.volumeInfo.imageLinks)
   // {const regEx='http';
