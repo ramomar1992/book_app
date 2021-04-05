@@ -96,11 +96,6 @@ function getData(req, res) {
 
 }
 
-
-
-
-
-
 app.get('/books/:id', (req, res) => {
   let unique = req.params.id;
   let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
@@ -111,8 +106,6 @@ app.get('/books/:id', (req, res) => {
       });
     });
 });
-
-
 
 app.get('/books', (req, res) => {
   const SQL2 = 'SELECT * from books';
@@ -125,14 +118,11 @@ app.get('/books', (req, res) => {
 });
 
 
-function saveData(req,res){
+function saveData(req, res) {
 
 
-  
+
 }
-
-
-
 
 client.connect().then(
   app.listen(PORT, () => {
