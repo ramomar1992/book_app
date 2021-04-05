@@ -22,13 +22,10 @@ app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"));
 
 
-console.log('Iam here');
 
 app.get('/', (req, res) => {
   const SQL = 'SELECT * FROM books';
-  console.log('inside get home');
   client.query(SQL).then(result => {
-    console.log('inside SQL');
     res.render('pages/index', {
       book: result.rows
     });
@@ -83,9 +80,12 @@ function getData(req, res) {
   }
   superagent.get(url).then(data => {
       return data.body.items.filter(element => {
-        console.log(element.volumeInfo)
-        return element.volumeInfo.authors;
-      }).map(elem => new Book(elem));
+        return element.volumeInfo.authors && element.volumeInfo.description;
+      }).map(elem => {
+        let dataEl = new Book(elem);
+        console.log(dataEl);
+        return dataEl;
+      });
     })
     .then(results => res.render('pages/searches/show', {
       searchResults: results
@@ -112,7 +112,6 @@ app.get('/books/:id', (req, res) => {
 
 
 app.get('/books', (req, res) => {
-  console.log('inside books');
   const SQL2 = 'SELECT * from books';
   client.query(SQL2)
     .then(result => {
