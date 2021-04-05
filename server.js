@@ -1,6 +1,7 @@
 'use strict';
-const PORT = process.env.PORT || 3031;
-// const PORT = process.env.PORT || 3030;
+
+require("dotenv").config();
+const PORT = process.env.PORT;
 
 const express = require('express');
 const superagent = require('superagent');
