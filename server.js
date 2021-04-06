@@ -7,11 +7,14 @@ const express = require('express');
 const superagent = require('superagent');
 const path = require('path');
 const pg = require('pg');
+var methodOverride = require('method-override');
+const app = express();
+
+app.use(methodOverride('_method'));
 
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', err => console.log('PG Error', err));
 
-const app = express();
 app.use(errorHandler);
 app.use(express.static(path.join(__dirname, "public/styles")));
 app.use(express.urlencoded({
@@ -56,6 +59,16 @@ function Book(data) {
   this.isbn = data.volumeInfo.industryIdentifiers[0].identifier;
   this.bookshelf = data.volumeInfo.categories[0];
   this.image = (data.volumeInfo.imageLinks) ? /^https/i.test(data.volumeInfo.imageLinks.thumbnail) ? data.volumeInfo.imageLinks.thumbnail : data.volumeInfo.imageLinks.thumbnail.replace(/^http/i, 'https') : 'https://i.imgur.com/J5LVHEL.jpg';
+}
+
+
+app.delete('/book/:id', deleteBook);
+
+function deleteBook(req, res) {
+  const id = req.params.id;
+  const SQL='DELETE from books WHERE id=$1';
+  client.query(SQL, [id]).then(() => res.redirect('/')
+  );
 }
 
 function getData(req, res) {
