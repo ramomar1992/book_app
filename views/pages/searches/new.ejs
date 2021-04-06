@@ -4,28 +4,26 @@
 <%- include('../../layout/head')  %>
 
 
-<body>
+<body class="searchbdy">
     <%- include('../../layout/header')  %>
     <main>
 
-        <fieldset>
-            <form action="/searches" method="post">
-                <label id="fl" for="search-name">
-                    Search Text:
-                    <input type="text" name="name" id="search-name" required>
-                </label>
-                <label id="sl" for="search-by">
-                    Search By: author
+        <form class="searchForm" action="/searches" method="post">
+            <label id="fl" for="search-name">
+                Search Text:
+                <input type="text" name="name" id="search-name" required>
+            </label>
+            <label id="sl" for="search-by">
+                Search by author:
 
-                    <input type="radio" name="search-by" value="author" id="search-by-author" required>
-                </label>
-                <label id="thl" for="search-by-title">
-                    Search By: title
-                    <input type="radio" name="search-by" value="title" id="" required>
-                </label>
-                <input type="submit" value="Search">
-            </form>
-        </fieldset>
+                <input type="radio" name="search-by" value="author" id="search-by-author" required>
+            </label>
+            <label id="thl" for="search-by-title">
+                Search by title:
+                <input type="radio" name="search-by" value="title" id="" required>
+            </label>
+            <input type="submit" value="Search">
+        </form>
     </main>
     <%- include('../../layout/footer')  %>
 

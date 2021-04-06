@@ -11,7 +11,7 @@
 
         <% searchResults.forEach( book => { %>
         <form method="post" action="/add-book">
-            <div id="book">
+            <section id="book">
                 <img id="img" src=<%= book.image %> alt="">
                 <h2><%=book.title %></h2>
                 <h4><%=book.author %></h4>
@@ -26,8 +26,8 @@
                 <input class="addClass" type="text" value="<%=book.isbn %>" name="bookisbn">
                 <input class="addClass" type="text" value="<%=book.bookshelf %>" name="bookshelf">
 
-                <button id="select" type="submit">Add book to my collection</button>
-            </div>
+                <button class="select" type="submit">Add book to my collection</button>
+            </section>
         </form>
 
 
