@@ -1,6 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS books (
-    id SERIAL,
+    id SERIAL primary key,
     title VARCHAR(255),
     author VARCHAR(255),
     bookDescription text,

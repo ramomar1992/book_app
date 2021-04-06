@@ -14,8 +14,7 @@
             <h2><%=details.title %></h2>
             <h4><%=details.author %></h4>
             <p><%=details.bookdescription %></p>
-            <h4>ISBN: <%= details.isbn %> </h4>
-            <h4>Bookshelf: <%=details.bookshelf %></h4>
+            <a href="/books/sohw/<%= details.id%>">Deetails</a>
         </section>
         <% }) %>
     </main>
