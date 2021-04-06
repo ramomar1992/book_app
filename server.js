@@ -1,7 +1,7 @@
 'use strict';
 
 require("dotenv").config();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5050;
 
 const express = require('express');
 const superagent = require('superagent');
@@ -25,7 +25,7 @@ app.use(express.urlencoded({
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"));
 
-app.put('/book/:id',updateOnebook);
+app.put('/books/:id', updateOnebook);
 
 
 
@@ -56,10 +56,10 @@ app.post('/searches', getData);
 
 function Book(data) {
   this.title = data.volumeInfo.title;
-  this.author = data.volumeInfo.authors.join(', ');
-  this.description = data.volumeInfo.description;
-  this.isbn = data.volumeInfo.industryIdentifiers[0].identifier;
-  this.bookshelf = data.volumeInfo.categories[0];
+  this.author = data.volumeInfo.authors.join(', ') || 'N/A';
+  this.description = data.volumeInfo.description || 'N/A';
+  this.isbn = (data.volumeInfo.industryIdentifiers) ? data.volumeInfo.industryIdentifiers[0].identifier : 'N/A';
+  this.bookshelf = data.volumeInfo.categories ? data.volumeInfo.categories[0] : 'N/A';
   this.image = (data.volumeInfo.imageLinks) ? /^https/i.test(data.volumeInfo.imageLinks.thumbnail) ? data.volumeInfo.imageLinks.thumbnail : data.volumeInfo.imageLinks.thumbnail.replace(/^http/i, 'https') : 'https://i.imgur.com/J5LVHEL.jpg';
 }
 
@@ -69,7 +69,11 @@ app.delete('/book/:id', deleteBook);
 function deleteBook(req, res) {
   const id = req.params.id;
   const SQL = 'DELETE from books WHERE id=$1';
-  client.query(SQL, [id]).then(() => res.redirect('/'));
+  client.query(SQL, [id])
+    .then(() => res.redirect('/'))
+    .catch(er => {
+      console.log(er);
+    });
 }
 
 function getData(req, res) {
@@ -82,12 +86,11 @@ function getData(req, res) {
     url += `+inauthor:${req.body['name']}`;
   }
   superagent.get(url).then(data => {
-      return data.body.items.filter(element => {
-        return element.volumeInfo.authors && element.volumeInfo.description && element.volumeInfo.categories;
-      }).map(elem => {
-        let dataEl = new Book(elem);
-        return dataEl;
-      });
+      return data.body.items
+        .map(elem => {
+          let dataEl = new Book(elem);
+          return dataEl;
+        });
     })
     .then(results => res.render('pages/searches/show', {
       searchResults: results
@@ -106,24 +109,31 @@ function saveData(req, res) {
 
   const values = [image, title, author, description, isbn, bookshelf];
   const SQL = `INSERT INTO books (bookImage, title, author, bookDescription, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *`;
-  client.query(SQL, values).then((data) => {
-    res.redirect(`/books/${data.rows[0].id}`);
-  });
+  client
+    .query(SQL, values).then((data) => {
+      res.redirect(`/books/show/${data.rows[0].id}`);
+    })
+    .catch(er => {
+      console.log(er);
+    });
 }
 
 
 
 
 
-app.get('/books/:id', (req, res) => {
+app.get('/books/:action/:id', (req, res) => {
   let unique = req.params.id;
   let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
   client.query(SQL)
     .then(data => {
-      console.log(data.rows);
       res.render('pages/books/show', {
-        details: data.rows[0]
+        details: data.rows[0],
+        action: req.params.action
       });
+    })
+    .catch(er => {
+      console.log(er);
     });
 });
 
@@ -134,6 +144,9 @@ app.get('/books', (req, res) => {
       res.render('pages/books/show', {
         searchResults: result.rows
       });
+    })
+    .catch(er => {
+      console.log(er);
     });
 });
 
@@ -143,22 +156,29 @@ app.get('/books', (req, res) => {
 
 
 
-function updateOnebook(req,res){
-  const id= req.params.id;
+function updateOnebook(req, res) {
+  const id = req.params.id;
   const image = req.body.bookimg;
   const title = req.body.booktitle;
   const author = req.body.bookauther;
   const description = req.body.bookdescription;
   const isbn = req.body.bookisbn;
   const bookshelf = req.body.bookshelf;
+  console.log(req.body);
+  console.log(req.params);
 
-  const val=[image,title,author,description,isbn,bookshelf];
+  const val = [image, title, author, description, isbn, bookshelf, id];
+  const SQL = `UPDATE books 
+                        SET
+                          bookImage=$1, title=$2, author=$3, bookDescription=$4, ISBN=$5, bookshelf=$6
+                        WHERE
+                          id=$7;`;
 
-  const SQL = `UPDATE books SET (Image, title, author, description, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) WHERE id=$7 `;
-
-  client.query(SQL, val).then(result=> {
-    res.redirect(`pages/books/edit/${id}`);
-})
+  client.query(SQL, val).then(() => {
+    res.redirect(`/books/show/${id}`);
+  }).catch(er => {
+    console.log(er);
+  });
 
 }
 
