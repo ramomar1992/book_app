@@ -106,7 +106,7 @@ function saveData(req, res) {
   const description = req.body.bookdescription;
   const isbn = req.body.bookisbn;
   const bookshelf = req.body.bookshelf;
-
+  console.log(req.body);
   const values = [image, title, author, description, isbn, bookshelf];
   const SQL = `INSERT INTO books (bookImage, title, author, bookDescription, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *`;
   client
@@ -158,17 +158,16 @@ app.get('/books', (req, res) => {
 
 function updateOnebook(req, res) {
   const id = req.params.id;
-  const image = req.body.bookimg;
+  const image = req.body.bookimage;
   const title = req.body.booktitle;
-  const author = req.body.bookauther;
+  const author = req.body.bookauthor;
   const description = req.body.bookdescription;
   const isbn = req.body.bookisbn;
   const bookshelf = req.body.bookshelf;
-  console.log(req.body);
-  console.log(req.params);
 
   const val = [image, title, author, description, isbn, bookshelf, id];
-  const SQL = `UPDATE books 
+  console.log(val);
+  const SQL = `UPDATE books
                         SET
                           bookImage=$1, title=$2, author=$3, bookDescription=$4, ISBN=$5, bookshelf=$6
                         WHERE
