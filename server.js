@@ -7,6 +7,7 @@ const express = require('express');
 const superagent = require('superagent');
 const path = require('path');
 const pg = require('pg');
+
 var methodOverride = require('method-override');
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({
 app.set('view engine', 'ejs');
 app.set("views", path.join(__dirname, "views"));
 
+app.put('/book/:id',updateOnebook);
 
 
 
@@ -135,6 +137,31 @@ app.get('/books', (req, res) => {
       });
     });
 });
+
+
+
+
+
+
+
+function updateOnebook(req,res){
+  const id= req.params.id;
+  const image = req.body.bookimg;
+  const title = req.body.booktitle;
+  const author = req.body.bookauther;
+  const description = req.body.bookdescription;
+  const isbn = req.body.bookisbn;
+  const bookshelf = req.body.bookshelf;
+
+  const val=[image,title,author,description,isbn,bookshelf];
+
+  const SQL = `UPDATE books SET (Image, title, author, description, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) WHERE id=$7 `;
+
+  client.query(SQL, val).then(result=> {
+    res.redirect(`pages/books/edit/${id}`);
+})
+
+}
 
 client.connect().then(
   app.listen(PORT, () => {
