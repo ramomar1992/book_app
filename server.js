@@ -1,7 +1,7 @@
 'use strict';
 
 require("dotenv").config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 const express = require('express');
 const superagent = require('superagent');
@@ -66,9 +66,8 @@ app.delete('/book/:id', deleteBook);
 
 function deleteBook(req, res) {
   const id = req.params.id;
-  const SQL='DELETE from books WHERE id=$1';
-  client.query(SQL, [id]).then(() => res.redirect('/')
-  );
+  const SQL = 'DELETE from books WHERE id=$1';
+  client.query(SQL, [id]).then(() => res.redirect('/'));
 }
 
 function getData(req, res) {

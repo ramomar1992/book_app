@@ -5,8 +5,13 @@
 <body>
     <%- include('../../layout/header')  %>
     <main>
-
         <%- include('./detail')  %>
+        <h4>ISBN: <%= details.isbn %> </h4>
+        <h4>Bookshelf: <%=details.bookshelf %></h4>
+        <form method="post" action="/book/<%=details.id%>?_method=DELETE">
+            <button type="submit">Delete Book</button>
+        </form>
+        <a href="/edit/books/<%=details.id%>">Edit Book</a>
     </main>
     <%- include('../../layout/footer')  %>
 
