@@ -87,7 +87,7 @@ but it was modified to fit the website in many ways */
     list-style-type: none;
     -webkit-font-smoothing: antialiased;
     transform-origin: 0% 0%;
-    transform: translate(-110%, 0);
+    transform: translate(-300%, 0);
 
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
 }

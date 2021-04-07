@@ -1,7 +1,7 @@
 # BookiTupia
 
 **Author**: Omar Ramadan
-**Version**: 1.4
+**Version**: 1.4.0
 
 ## Overview
 
@@ -10,6 +10,7 @@ This application is a book searching app, where you can serach from Google's boo
 ## Getting Started
 
 The application needs a web browser, Google Chrome latest edition is recommended. The application is directed to smart phone users. It does not have a desktop version. Internet connection is needed in order to run the application in the browser, which means that it does not operate offline. This app is does not provide a front-end part, all of the website is rendered from the server with a code written in Node and EJS. 
+
 ## Architecture
 
 The appliction is licenced with MIT license. 

@@ -30,11 +30,12 @@ app.put('/books/:id', updateOnebook);
 
 
 app.get('/', (req, res) => {
-  const SQL = 'SELECT * FROM books';
+  const SQL = 'SELECT books.id,authors.name,books.title,books.description,books.image_url,books.isbn,books.bookshelf from books join authors on authors.id=books.author_id;';
   client.query(SQL).then(result => {
+    console.log(result.rows);
     res.render('pages/index', {
       books: result.rows
-    });
+    }).catch(err => console.log(err));
   });
 });
 
@@ -106,16 +107,21 @@ function saveData(req, res) {
   const description = req.body.bookdescription;
   const isbn = req.body.bookisbn;
   const bookshelf = req.body.bookshelf;
-  console.log(req.body);
-  const values = [image, title, author, description, isbn, bookshelf];
-  const SQL = `INSERT INTO books (bookImage, title, author, bookDescription, isbn, bookshelf) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *`;
-  client
-    .query(SQL, values).then((data) => {
-      res.redirect(`/books/show/${data.rows[0].id}`);
-    })
-    .catch(er => {
-      console.log(er);
-    });
+  const SQL = `INSERT INTO books (title,isbn,image_url ,  description, bookshelf,author_id) VALUES ($1, $2 ,$3, $4, $5, $6) RETURNING *`;
+  const values = [title, isbn, image, description, bookshelf];
+
+  client.query('select * from authors where name=$1;', [author]).then(data => {
+    if (data.rows.length > 0) {
+      client.query(SQL, [...values, data.rows[0].id]).then(returned => {
+        res.redirect(`/books/show/${returned.rows[0].id}`);
+      }).catch(err => console.log('error on inserting if\n', err));
+    } else {
+      client.query('insert into authors (name) values ($1) RETURNING *;', [author]).then(data2 => {
+        client.query(SQL, [...values, data2.rows[0].id]).then(ret => res.redirect(`/books/show/${ret.rows[0].id}`))
+          .catch(err => console.log('error in inserting into books else', err));
+      }).catch(err => console.log('error in inserting into authors else', err));
+    }
+  }).catch(err => console.log('Error in author query\n', err));
 }
 
 
@@ -124,9 +130,10 @@ function saveData(req, res) {
 
 app.get('/books/:action/:id', (req, res) => {
   let unique = req.params.id;
-  let SQL = `SELECT * FROM books WHERE id = '${unique}';`;
+  let SQL = `SELECT books.id,authors.name,books.title,books.description,books.image_url,books.isbn,books.bookshelf from books join authors on authors.id=books.author_id WHERE books.id = '${unique}';`;
   client.query(SQL)
     .then(data => {
+      console.log(data.rows);
       res.render('pages/books/show', {
         details: data.rows[0],
         action: req.params.action
@@ -165,13 +172,13 @@ function updateOnebook(req, res) {
   const isbn = req.body.bookisbn;
   const bookshelf = req.body.bookshelf;
 
-  const val = [image, title, author, description, isbn, bookshelf, id];
+  const val = [image, title, description, isbn, bookshelf, id];
   console.log(val);
   const SQL = `UPDATE books
                         SET
-                          bookImage=$1, title=$2, author=$3, bookDescription=$4, ISBN=$5, bookshelf=$6
+                          image_url=$1, title=$2, description=$3, ISBN=$4, bookshelf=$5
                         WHERE
-                          id=$7;`;
+                          id=$6;`;
 
   client.query(SQL, val).then(() => {
     res.redirect(`/books/show/${id}`);
