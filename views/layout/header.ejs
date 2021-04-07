@@ -1,13 +1,19 @@
  <header>
-     <nav>
+     <nav role="navigation">
          <h2>BookiTupia</h2>
-         <ul>
-             <li>
-                 <a href="/">Home</a>
-             </li>
-             <li>
-                 <a href="/searches/new">Search Google Books</a>
-             </li>
-         </ul>
+         <div id="menuToggle">
+             <input type="checkbox" />
+             <span></span>
+             <span></span>
+             <span></span>
+             <ul id="menu">
+                 <a href="/">
+                     <li>Home</li>
+                 </a>
+                 <a href="/searches/new">
+                     <li>Search Google Books</li>
+                 </a>
+             </ul>
+         </div>
      </nav>
  </header>

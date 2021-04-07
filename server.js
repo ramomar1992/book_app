@@ -56,7 +56,7 @@ app.post('/searches', getData);
 
 function Book(data) {
   this.title = data.volumeInfo.title;
-  this.author = data.volumeInfo.authors.join(', ') || 'N/A';
+  this.author = data.volumeInfo.authors ? data.volumeInfo.authors.join(', ') : 'N/A';
   this.description = data.volumeInfo.description || 'N/A';
   this.isbn = (data.volumeInfo.industryIdentifiers) ? data.volumeInfo.industryIdentifiers[0].identifier : 'N/A';
   this.bookshelf = data.volumeInfo.categories ? data.volumeInfo.categories[0] : 'N/A';

@@ -2,3 +2,27 @@
     box-sizing: border-box;
 }
 
+h1,
+h2,
+h3,
+h4 {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+html {
+    background-color: white;
+}
+
+section {
+    padding: 20px 10px;
+    width: 90%;
+    margin: 2rem auto;
+    height: fit-content;
+    box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.404);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ddd8c3;
+
+}
