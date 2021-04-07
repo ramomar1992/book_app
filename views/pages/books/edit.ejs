@@ -1,7 +1,7 @@
 <form id="editForm" method="post" action="/books/<%=details.id%>?_method=PUT">
     <div>
         <label for="editImg">Image URL:</label>
-        <input type="text" name="bookimage" id="editImg" placeholder="bookimage" value="<%= details.bookimage %>" />
+        <input type="text" name="bookimage" id="editImg" placeholder="bookimage" value="<%= details.image_url %>" />
     </div>
     <div>
         <label for="title">Title:</label>
@@ -9,7 +9,7 @@
     </div>
     <div>
         <label for="author">Author:</label>
-        <input type="text" name="bookauthor" id="author" placeholder="author" value="<%=details.author %>" />
+        <input type="text" name="bookauthor" id="author" placeholder="author" value="<%=details.name %>" disabled />
     </div>
     <div>
         <label for="bookisbn">ISBN</label>
@@ -22,7 +22,7 @@
     <div>
         <label for="Description">Description:</label>
         <textarea name="bookdescription" id="Description" col="10" rows="20"
-            placeholder="Add Description"><%=details.bookdescription %></textarea>
+            placeholder="Add Description"><%=details.description %></textarea>
     </div>
     <div class="buttons">
         <button type="submit">Commit Changes</button>
