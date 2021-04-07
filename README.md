@@ -1,22 +1,70 @@
-# book_app
+# BookiTupia
 
-**Author**: Your Name Goes Here
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Author**: Omar Ramadan
+**Version**: 1.4
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for a Code 301 class. (i.e. What's your problem domain?) -->
+
+This application is a book searching app, where you can serach from Google's book database and save details about these books on your profile. You have the ability to add more books, edit the details of the book, and removed the books you already saved from the previous searches.
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
 
+The application needs a web browser, Google Chrome latest edition is recommended. The application is directed to smart phone users. It does not have a desktop version. Internet connection is needed in order to run the application in the browser, which means that it does not operate offline. This app is does not provide a front-end part, all of the website is rendered from the server with a code written in Node and EJS. 
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
 
-## Change Log
+The appliction is licenced with MIT license. 
 
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
+Technologies used: 
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with GET and POST routes for the book resource.
+* JavaScript and Node
+* Express framework
+* EJS templating
+* Postgres SQL
+* Vanilla CSS
+* Superagent proxy
 
-## Credits and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+Node packages:
+
+* express
+* pg
+* dotenv
+* path
+* superagent
+* method-override
+* ejs
+
+## Tree view
+
+```
+book_app (repository)
+├──data
+│  └── books.sql
+├──public
+│  └── styles
+│      ├── base.css
+│      ├── layout.css
+│      ├── modules.css
+│      └── reset.css
+├──views
+│  ├── layout
+│  │   ├── footer.ejs
+│  │   ├── head.ejs
+│  │   └── header.ejs
+│  └── pages
+│      ├── books
+│      │   ├── detail.ejs
+│      │   ├── edit.ejs
+│      │   └── show.ejs
+│      ├── searches
+│      │   ├── new.ejs
+│      │   └── show.ejs
+│      ├── error.ejs
+│      └── index.ejs
+├── .env
+├── .eslintrc.json
+├── .gitignore
+├── package-lock.json
+├── package.json
+├── README.md
+└── server.js
+```
